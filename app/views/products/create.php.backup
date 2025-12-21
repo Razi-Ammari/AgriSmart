@@ -1,0 +1,927 @@
+<?php
+$pageTitle = 'Add New Product - AgroMarket';
+require_once APP_PATH . '/views/layouts/header.php';
+?>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Global Styles */
+* {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.form-page {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+/* Premium Container */
+.premium-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Page Header */
+.page-header-premium {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.6s ease;
+}
+
+.page-header-premium h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2E7D32;
+    margin-bottom: 0.5rem;
+}
+
+.page-header-premium p {
+    font-size: 1.1rem;
+    color: #616161;
+}
+
+/* Form Container - 2 Column Layout */
+.form-container-premium {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+@media (min-width: 1400px) {
+    .form-container-premium {
+        grid-template-columns: 1fr 420px;
+    }
+}
+
+/* Main Form Content */
+.form-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Section Card */
+.section-card-premium {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.section-card-premium:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: rgba(76, 175, 80, 0.2);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2E7D32;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title i {
+    font-size: 1.5rem;
+    color: #4CAF50;
+}
+
+/* 2-Column Grid for Inputs */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.form-grid.full-width {
+    grid-template-columns: 1fr;
+}
+
+/* Form Group */
+.form-group-premium {
+    position: relative;
+}
+
+.form-group-premium label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #424242;
+    margin-bottom: 0.5rem;
+}
+
+.form-group-premium label .required {
+    color: #f44336;
+    margin-left: 0.25rem;
+}
+
+/* Input Styling */
+.form-input-premium,
+.form-select-premium,
+.form-textarea-premium {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fafafa;
+    transition: all 0.2s ease;
+    color: #212121;
+}
+
+.form-input-premium:focus,
+.form-select-premium:focus,
+.form-textarea-premium:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-input-premium:hover,
+.form-select-premium:hover,
+.form-textarea-premium:hover {
+    border-color: #bdbdbd;
+}
+
+.form-textarea-premium {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Sidebar - Sticky */
+.form-sidebar {
+    position: sticky;
+    top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;    min-width: 0;}
+
+/* Image Upload Card */
+.image-upload-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.image-upload-zone {
+    border: 3px dashed #bdbdbd;
+    border-radius: 12px;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: #fafafa;
+}
+
+.image-upload-zone:hover,
+.image-upload-zone.drag-over {
+    border-color: #4CAF50;
+    background: #f1f8f4;
+}
+
+.image-upload-zone i {
+    font-size: 3rem;
+    color: #4CAF50;
+    margin-bottom: 1rem;
+}
+
+.image-upload-zone p {
+    margin: 0;
+    color: #757575;
+}
+
+.image-upload-zone .upload-hint {
+    font-size: 0.875rem;
+    color: #9e9e9e;
+    margin-top: 0.5rem;
+}
+
+/* Image Preview */
+.image-preview-container {
+    position: relative;
+    margin-top: 1rem;
+}
+
+.image-preview-container img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.image-remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(244, 67, 54, 0.9);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.image-remove-btn:hover {
+    background: #d32f2f;
+    transform: scale(1.1);
+}
+
+/* Submit Card */
+.submit-card {
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+    position: relative;
+    z-index: 10;
+}
+
+.submit-btn-premium {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: white;
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.submit-btn-premium:hover {
+    background: white;
+    color: #4CAF50;
+    border-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.submit-btn-premium:active {
+    transform: translateY(0);
+}
+
+.cancel-btn-premium {
+    width: 100%;
+    padding: 0.875rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn-premium:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    color: white;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-in {
+    animation: fadeInUp 0.5s ease backwards;
+}
+
+.animate-in:nth-child(1) { animation-delay: 0.1s; }
+.animate-in:nth-child(2) { animation-delay: 0.2s; }
+.animate-in:nth-child(3) { animation-delay: 0.3s; }
+.animate-in:nth-child(4) { animation-delay: 0.4s; }
+
+/* Checkbox/Toggle Styling */
+.form-check-premium {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.form-check-premium input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #4CAF50;
+}
+
+/* Input Group with Icon */
+.input-with-icon {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9e9e9e;
+}
+
+.input-with-icon .form-input-premium {
+    padding-left: 2.75rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .form-container-premium {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-sidebar {
+        position: relative;
+        top: 0;
+        order: -1;
+    }
+    
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .page-header-premium h1 {
+        font-size: 2rem;
+    }
+    
+    .submit-card {
+        position: sticky;
+        bottom: 1rem;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .premium-container {
+        padding: 0 1rem;
+    }
+    
+    .section-card-premium,
+    .image-upload-card,
+    .submit-card {
+        padding: 1.5rem;
+    }
+    
+    .page-header-premium h1 {
+        font-size: 1.75rem;
+    }
+    
+    .submit-btn-premium {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+}
+
+/* Loading State */
+.submit-btn-premium:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+    background: linear-gradient(135deg, var(--primary) 0%, #43A047 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+}
+
+.image-upload-box {
+    border: 3px dashed #d0d0d0;
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.image-upload-box:hover {
+    border-color: var(--primary);
+    background: rgba(46, 125, 50, 0.05);
+}
+
+.submit-section {
+    background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e9 100%);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(40, 167, 69, 0.15);
+    margin-top: 2rem;
+}
+
+.btn-main-submit {
+    background: linear-gradient(135deg, #2E7D32 0%, #43A047 100%);
+    border: none;
+    border-radius: 50px;
+    padding: 1.25rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+.btn-main-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+    color: white;
+}
+
+.progress-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.progress-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+.progress-step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #e0e0e0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #999;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active .progress-step-circle {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+    box-shadow: 0 0 0 6px rgba(46, 125, 50, 0.1);
+}
+
+.plant-info-section {
+    border-left: 4px solid #4CAF50;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f8f4 100%);
+}
+
+.tips-box {
+    background: linear-gradient(135deg, #fff3cd 0%, #fffbea 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid #ffc107;
+}
+</style>
+
+<!-- Page Content -->
+<div class="form-page">
+    <div class="premium-container">
+        
+        <!-- Page Header -->
+        <div class="page-header-premium">
+            <h1><i class="bi bi-plus-circle-fill"></i> Add New Product</h1>
+            <p>List your agricultural product and reach thousands of buyers</p>
+        </div>
+
+        <form method="POST" action="<?php echo BASE_URL; ?>/products/create" enctype="multipart/form-data" id="productForm">
+            <?php echo Security::csrfField(); ?>
+            
+            <!-- 2-Column Layout -->
+            <div class="form-container-premium">
+                
+                <!-- Main Content (Left Side) -->
+                <div class="form-main-content">
+                    
+                    <!-- Section 1: Basic Information -->
+                    <div class="section-card-premium animate-in">
+                        <div class="section-title">
+                            <i class="bi bi-info-circle-fill"></i>
+                            <span>Basic Information</span>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group-premium">
+                                <label for="name">Product Name <span class="required">*</span></label>
+                                <input type="text" 
+                                       id="name" 
+                                       name="name" 
+                                       class="form-input-premium"
+                                       placeholder="e.g., Fresh Tomatoes"
+                                       value="<?php echo Security::escape($_SESSION['old']['name'] ?? ''); ?>"
+                                       required>
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="category_id">Category <span class="required">*</span></label>
+                                <select id="category_id" name="category_id" class="form-select-premium" required>
+                                    <option value="">Select Category</option>
+                                    <?php foreach ($categories as $category): ?>
+                                        <option value="<?php echo $category['id']; ?>"
+                                                <?php echo (($_SESSION['old']['category_id'] ?? '') == $category['id']) ? 'selected' : ''; ?>>
+                                            <?php echo Security::escape($category['name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="price">Price ($) <span class="required">*</span></label>
+                                <input type="number" 
+                                       id="price" 
+                                       name="price" 
+                                       class="form-input-premium"
+                                       placeholder="0.00"
+                                       step="0.01"
+                                       min="0"
+                                       value="<?php echo Security::escape($_SESSION['old']['price'] ?? ''); ?>"
+                                       required>
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="stock_quantity">Stock Quantity <span class="required">*</span></label>
+                                <input type="number" 
+                                       id="stock_quantity" 
+                                       name="stock_quantity" 
+                                       class="form-input-premium"
+                                       placeholder="0"
+                                       min="0"
+                                       value="<?php echo Security::escape($_SESSION['old']['stock_quantity'] ?? ''); ?>"
+                                       required>
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="unit">Unit</label>
+                                <select id="unit" name="unit" class="form-select-premium">
+                                    <option value="piece" <?php echo (($_SESSION['old']['unit'] ?? 'piece') == 'piece') ? 'selected' : ''; ?>>Piece</option>
+                                    <option value="kg" <?php echo (($_SESSION['old']['unit'] ?? '') == 'kg') ? 'selected' : ''; ?>>Kilogram (kg)</option>
+                                    <option value="lb" <?php echo (($_SESSION['old']['unit'] ?? '') == 'lb') ? 'selected' : ''; ?>>Pound (lb)</option>
+                                    <option value="bunch" <?php echo (($_SESSION['old']['unit'] ?? '') == 'bunch') ? 'selected' : ''; ?>>Bunch</option>
+                                    <option value="bag" <?php echo (($_SESSION['old']['unit'] ?? '') == 'bag') ? 'selected' : ''; ?>>Bag</option>
+                                    <option value="box" <?php echo (($_SESSION['old']['unit'] ?? '') == 'box') ? 'selected' : ''; ?>>Box</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 2: Product Description -->
+                    <div class="section-card-premium animate-in">
+                        <div class="section-title">
+                            <i class="bi bi-file-text-fill"></i>
+                            <span>Product Description</span>
+                        </div>
+                        
+                        <div class="form-grid full-width">
+                            <div class="form-group-premium">
+                                <label for="description">Description</label>
+                                <textarea id="description" 
+                                          name="description" 
+                                          class="form-textarea-premium"
+                                          placeholder="Describe your product, its quality, growing method, benefits, etc."><?php echo Security::escape($_SESSION['old']['description'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 3: Plant Growing Information -->
+                    <div class="section-card-premium animate-in">
+                        <div class="section-title">
+                            <i class="bi bi-flower1"></i>
+                            <span>Plant Information (Optional)</span>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group-premium">
+                                <label for="min_temperature">Min Temperature (°C)</label>
+                                <input type="number" 
+                                       id="min_temperature" 
+                                       name="min_temperature" 
+                                       class="form-input-premium"
+                                       placeholder="15"
+                                       step="0.1"
+                                       value="<?php echo Security::escape($_SESSION['old']['min_temperature'] ?? ''); ?>">
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="max_temperature">Max Temperature (°C)</label>
+                                <input type="number" 
+                                       id="max_temperature" 
+                                       name="max_temperature" 
+                                       class="form-input-premium"
+                                       placeholder="30"
+                                       step="0.1"
+                                       value="<?php echo Security::escape($_SESSION['old']['max_temperature'] ?? ''); ?>">
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="min_humidity">Min Humidity (%)</label>
+                                <input type="number" 
+                                       id="min_humidity" 
+                                       name="min_humidity" 
+                                       class="form-input-premium"
+                                       placeholder="40"
+                                       step="0.1"
+                                       value="<?php echo Security::escape($_SESSION['old']['min_humidity'] ?? ''); ?>">
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="max_humidity">Max Humidity (%)</label>
+                                <input type="number" 
+                                       id="max_humidity" 
+                                       name="max_humidity" 
+                                       class="form-input-premium"
+                                       placeholder="80"
+                                       step="0.1"
+                                       value="<?php echo Security::escape($_SESSION['old']['max_humidity'] ?? ''); ?>">
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="origin">Origin/Region</label>
+                                <select id="origin" name="origin" class="form-select-premium">
+                                    <option value="">Select Origin</option>
+                                    <option value="North" <?php echo (($_SESSION['old']['origin'] ?? '') == 'North') ? 'selected' : ''; ?>>North</option>
+                                    <option value="South" <?php echo (($_SESSION['old']['origin'] ?? '') == 'South') ? 'selected' : ''; ?>>South</option>
+                                    <option value="East" <?php echo (($_SESSION['old']['origin'] ?? '') == 'East') ? 'selected' : ''; ?>>East</option>
+                                    <option value="West" <?php echo (($_SESSION['old']['origin'] ?? '') == 'West') ? 'selected' : ''; ?>>West</option>
+                                    <option value="Central" <?php echo (($_SESSION['old']['origin'] ?? '') == 'Central') ? 'selected' : ''; ?>>Central</option>
+                                    <option value="Tropical" <?php echo (($_SESSION['old']['origin'] ?? '') == 'Tropical') ? 'selected' : ''; ?>>Tropical</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="sunlight_requirement">Sunlight Requirement</label>
+                                <select id="sunlight_requirement" name="sunlight_requirement" class="form-select-premium">
+                                    <option value="">Select Sunlight Need</option>
+                                    <option value="Full Sun" <?php echo (($_SESSION['old']['sunlight_requirement'] ?? '') == 'Full Sun') ? 'selected' : ''; ?>>Full Sun (6+ hours)</option>
+                                    <option value="Partial Sun" <?php echo (($_SESSION['old']['sunlight_requirement'] ?? '') == 'Partial Sun') ? 'selected' : ''; ?>>Partial Sun (4-6 hours)</option>
+                                    <option value="Partial Shade" <?php echo (($_SESSION['old']['sunlight_requirement'] ?? '') == 'Partial Shade') ? 'selected' : ''; ?>>Partial Shade</option>
+                                    <option value="Full Shade" <?php echo (($_SESSION['old']['sunlight_requirement'] ?? '') == 'Full Shade') ? 'selected' : ''; ?>>Full Shade</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="watering_frequency">Watering Frequency</label>
+                                <select id="watering_frequency" name="watering_frequency" class="form-select-premium">
+                                    <option value="">Select Frequency</option>
+                                    <option value="Daily" <?php echo (($_SESSION['old']['watering_frequency'] ?? '') == 'Daily') ? 'selected' : ''; ?>>Daily</option>
+                                    <option value="Every 2-3 Days" <?php echo (($_SESSION['old']['watering_frequency'] ?? '') == 'Every 2-3 Days') ? 'selected' : ''; ?>>Every 2-3 Days</option>
+                                    <option value="Weekly" <?php echo (($_SESSION['old']['watering_frequency'] ?? '') == 'Weekly') ? 'selected' : ''; ?>>Weekly</option>
+                                    <option value="As Needed" <?php echo (($_SESSION['old']['watering_frequency'] ?? '') == 'As Needed') ? 'selected' : ''; ?>>As Needed</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="soil_type">Soil Type</label>
+                                <select id="soil_type" name="soil_type" class="form-select-premium">
+                                    <option value="">Select Soil Type</option>
+                                    <option value="Loamy" <?php echo (($_SESSION['old']['soil_type'] ?? '') == 'Loamy') ? 'selected' : ''; ?>>Loamy</option>
+                                    <option value="Sandy" <?php echo (($_SESSION['old']['soil_type'] ?? '') == 'Sandy') ? 'selected' : ''; ?>>Sandy</option>
+                                    <option value="Clay" <?php echo (($_SESSION['old']['soil_type'] ?? '') == 'Clay') ? 'selected' : ''; ?>>Clay</option>
+                                    <option value="Well-Drained" <?php echo (($_SESSION['old']['soil_type'] ?? '') == 'Well-Drained') ? 'selected' : ''; ?>>Well-Drained</option>
+                                    <option value="Moist" <?php echo (($_SESSION['old']['soil_type'] ?? '') == 'Moist') ? 'selected' : ''; ?>>Moist</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="growing_season">Growing Season</label>
+                                <input type="text" 
+                                       id="growing_season" 
+                                       name="growing_season" 
+                                       class="form-input-premium"
+                                       placeholder="e.g., Spring, Summer"
+                                       value="<?php echo Security::escape($_SESSION['old']['growing_season'] ?? ''); ?>">
+                            </div>
+                            
+                            <div class="form-group-premium">
+                                <label for="harvest_time">Harvest Time</label>
+                                <input type="text" 
+                                       id="harvest_time" 
+                                       name="harvest_time" 
+                                       class="form-input-premium"
+                                       placeholder="e.g., 60-90 days"
+                                       value="<?php echo Security::escape($_SESSION['old']['harvest_time'] ?? ''); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <?php if (AuthMiddleware::role() === 'admin'): ?>
+                    <!-- Section 4: Featured Product -->
+                    <div class="section-card-premium animate-in">
+                        <div class="form-check-premium">
+                            <input type="checkbox" 
+                                   id="is_featured" 
+                                   name="is_featured"
+                                   value="1"
+                                   <?php echo (($_SESSION['old']['is_featured'] ?? 0) == 1) ? 'checked' : ''; ?>>
+                            <label for="is_featured">
+                                <i class="bi bi-star-fill" style="color: #FFC107;"></i> Mark as Featured Product
+                            </label>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                </div>
+                
+                <!-- Sidebar (Right Side) -->
+                <div class="form-sidebar">
+                    
+                    <!-- Image Upload -->
+                    <div class="image-upload-card animate-in">
+                        <div class="section-title">
+                            <i class="bi bi-image-fill"></i>
+                            <span>Product Image</span>
+                        </div>
+                        
+                        <div class="image-upload-zone" id="uploadZone">
+                            <i class="bi bi-cloud-upload"></i>
+                            <p><strong>Click or drag to upload</strong></p>
+                            <p class="upload-hint">JPG, PNG or GIF (Max 5MB)</p>
+                            <input type="file" 
+                                   id="image" 
+                                   name="image" 
+                                   accept="image/*"
+                                   style="display: none;">
+                        </div>
+                        
+                        <div class="image-preview-container" id="imagePreview" style="display: none;">
+                            <img src="" alt="Preview" id="previewImg">
+                            <button type="button" class="image-remove-btn" onclick="removeImage()">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="submit-card animate-in">
+                        <div class="text-center mb-3">
+                            <h5 style="color: white; font-weight: 600; margin: 0;">Ready to Publish?</h5>
+                            <small style="color: rgba(255,255,255,0.9);">Review and submit your product</small>
+                        </div>
+                        <button type="submit" class="submit-btn-premium" id="submitBtn">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            ADD PRODUCT
+                        </button>
+                        <a href="<?php echo BASE_URL; ?>/dashboard" class="cancel-btn-premium">
+                            <i class="bi bi-arrow-left me-2"></i>
+                            Cancel
+                        </a>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+<script>
+// Image Upload with Drag & Drop
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('image');
+const imagePreview = document.getElementById('imagePreview');
+const previewImg = document.getElementById('previewImg');
+
+// Click to upload
+uploadZone.addEventListener('click', () => fileInput.click());
+
+// Drag and drop
+uploadZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadZone.classList.add('drag-over');
+});
+
+uploadZone.addEventListener('dragleave', () => {
+    uploadZone.classList.remove('drag-over');
+});
+
+uploadZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadZone.classList.remove('drag-over');
+    const files = e.dataTransfer.files;
+    if (files.length) {
+        fileInput.files = files;
+        previewImage();
+    }
+});
+
+// File input change
+fileInput.addEventListener('change', previewImage);
+
+function previewImage() {
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewImg.src = e.target.result;
+            uploadZone.style.display = 'none';
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function removeImage() {
+    fileInput.value = '';
+    previewImg.src = '';
+    uploadZone.style.display = 'block';
+    imagePreview.style.display = 'none';
+}
+
+// Form Submission
+document.getElementById('productForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span> Creating...';
+});
+
+// Input Focus Effects
+document.querySelectorAll('.form-input-premium, .form-select-premium, .form-textarea-premium').forEach(input => {
+    input.addEventListener('focus', function() {
+        this.parentElement.style.transform = 'translateY(-2px)';
+    });
+    
+    input.addEventListener('blur', function() {
+        this.parentElement.style.transform = 'translateY(0)';
+    });
+});
+
+// Clear old session data
+<?php unset($_SESSION['old']); ?>
+</script>
+
+<?php require_once APP_PATH . '/views/layouts/footer.php'; ?>
