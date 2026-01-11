@@ -522,13 +522,8 @@ This project is licensed under the MIT License.
 - PHP Community for comprehensive documentation
 - All contributors and testers
 
----
 
-## 📞 Support
 
-For support, email info@AgriSmart.com or open an issue on GitHub.
-
----
 
 <div align="center">
 
@@ -537,5 +532,3 @@ For support, email info@AgriSmart.com or open an issue on GitHub.
 ⭐ Star this repo if you find it helpful!
 
 </div>
-# AgriSmart
-# AgriSmart
