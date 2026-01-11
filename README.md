@@ -99,11 +99,9 @@ Buy and Sell Agricultural Products Online
 - **PDO** - Database abstraction layer
 
 ### Frontend
-- **HTML5** - Markup
-- **CSS3** - Styling with CSS Variables
+- **HTML** - Markup
+- **CSS** - Styling with CSS Variables
 - **JavaScript ES6+** - Interactivity
-- **Bootstrap 5.3** - UI Framework
-- **Bootstrap Icons** - Icon library
 - **Google Fonts (Poppins)** - Typography
 
 ### Architecture
